@@ -54,62 +54,104 @@
 
        <!-- Blog Comments -->
 
+        <?php
+          $the_post_id = $_GET['p_id'];
+          if(isset($_POST['create_comment'])){
+            $comment_author = $_POST['comment_author'];
+            $comment_email = $_POST['comment_email'];
+            $comment_content = $_POST['comment_content'];
+            $comment_status = "approved";     //default
+            $comment_date = date('d-m-y');
+//Adds new comment
+            $query = "INSERT INTO comments
+              (comment_post_id, comment_author, comment_email,
+              comment_content, comment_status, comment_date)
+              VALUES ({$the_post_id}, '{$comment_author}', '{$comment_email}',
+              '{$comment_content}', '{$comment_status}', now() )";
+            $insert_comment = mysqli_query($connection, $query);
+            header("Location: #comments");
+            if(!$insert_comment){
+              die("Inserting comment failed" . mysqli_error($connection));
+            }
+          }
+
+//Counts comments in that post_status
+          $query = "SELECT comment_id FROM comments
+                    WHERE comment_post_id = {$the_post_id}";
+          $comment_count_query = mysqli_query($connection, $query);
+          if(!$comment_count_query){
+            die("Counting comments failed" . mysqli_error($connection));
+          } else {
+          $comment_count = mysqli_num_rows($comment_count_query);
+          }
+//Adds comment count value to database table 'posts' column 'post_coment_count'
+          $query = "UPDATE posts
+                    SET post_comment_count = $comment_count
+                    WHERE post_id = {$the_post_id}";
+          $update_post_count = mysqli_query($connection, $query);
+          if(!$update_post_count){
+            die('Updating post count failed' . mysqli_error($connection));
+          }
+
+
+         ?>
+
+
        <!-- Comments Form -->
-       <div class="well">
+       <div class="well" id="comments">
            <h4>Leave a Comment:</h4>
-           <form role="form">
+           <form action="" method="post" role="form">
+             <div class="form-group">
+               <label for="comment_author">Your name</label>
+               <input type="text" class="form-control" name="comment_author">
+             </div>
+             <div class="form-group">
+               <label for="comment_email">Your email</label>
+               <input type="text" class="form-control" name="comment_email">
+             </div>
                <div class="form-group">
-                   <textarea class="form-control" rows="3"></textarea>
+                   <label for="comment_content">Comment here</label>
+                   <textarea class="form-control" rows="3" name="comment_content"></textarea>
                </div>
-               <button type="submit" class="btn btn-primary">Submit</button>
+               <button type="submit" name="create_comment" class="btn btn-primary">Submit</button>
            </form>
        </div>
-
        <hr>
 
+
+<?php
+$comments_query = "SELECT * FROM comments
+                  WHERE comment_post_id = {$the_post_id}
+                  AND comment_status = 'approved'
+                  ORDER BY comment_id DESC";
+$show_comments_query = mysqli_query($connection, $comments_query);
+if(!$show_comments_query){
+  die("Error showing comments" . mysqli_error($connection));
+} else {
+  while($row = mysqli_fetch_array($show_comments_query)){
+    $comment_author = $row['comment_author'];
+    $comment_email = $row['comment_email'];
+    $comment_content = $row['comment_content'];
+    $comment_date = $row['comment_date'];
+    $comment_id = $row['comment_id'];
+?>
        <!-- Posted Comments -->
+<div class="media">
+    <a class="pull-left" href="#">
+        <img class="media-object" src="http://placehold.it/64x64" alt="">
+    </a>
+    <div class="media-body">
+        <h4 class="media-heading"><a style="text-decoration:none" href="mailto:<?php echo $comment_email ?>"><?php echo $comment_author ?></a>
+            <small><?php echo $comment_date ?></small>
+        </h4>
+        <?php echo $comment_content ?>
+    </div>
+</div>
 
-       <!-- Comment -->
-       <div class="media">
-           <a class="pull-left" href="#">
-               <img class="media-object" src="http://placehold.it/64x64" alt="">
-           </a>
-           <div class="media-body">
-               <h4 class="media-heading">Start Bootstrap
-                   <small>August 25, 2014 at 9:30 PM</small>
-               </h4>
-               Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-           </div>
-       </div>
-
-       <!-- Comment -->
-       <div class="media">
-           <a class="pull-left" href="#">
-               <img class="media-object" src="http://placehold.it/64x64" alt="">
-           </a>
-           <div class="media-body">
-               <h4 class="media-heading">Start Bootstrap
-                   <small>August 25, 2014 at 9:30 PM</small>
-               </h4>
-               Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-               <!-- Nested Comment -->
-               <div class="media">
-                   <a class="pull-left" href="#">
-                       <img class="media-object" src="http://placehold.it/64x64" alt="">
-                   </a>
-                   <div class="media-body">
-                       <h4 class="media-heading">Nested Start Bootstrap
-                           <small>August 25, 2014 at 9:30 PM</small>
-                       </h4>
-                       Cras sit amet nibh libero, in gravida nulla. Nulla vel metus scelerisque ante sollicitudin commodo. Cras purus odio, vestibulum in vulputate at, tempus viverra turpis. Fusce condimentum nunc ac nisi vulputate fringilla. Donec lacinia congue felis in faucibus.
-                   </div>
-               </div>
-               <!-- End Nested Comment -->
-           </div>
-       </div>
-
-
-
+<?php
+  }
+}
+ ?>
 
             </div>
 

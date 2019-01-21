@@ -34,6 +34,26 @@
     $post_content = $row['post_content'];
     $post_tags = $row['post_tags'];
     $post_comment_count = $row['post_comment_count'];
+
+    //Counts comments in that post_status
+              $query = "SELECT comment_id FROM comments
+                        WHERE comment_post_id = {$post_id}";
+              $comment_count_query = mysqli_query($connection, $query);
+              if(!$comment_count_query){
+                die("Counting comments failed" . mysqli_error($connection));
+              } else {
+              $comment_count = mysqli_num_rows($comment_count_query);
+              }
+    //Adds comment count value to database table 'posts' column 'post_coment_count'
+              $query = "UPDATE posts
+                        SET post_comment_count = $comment_count
+                        WHERE post_id = {$post_id}";
+              $update_post_count = mysqli_query($connection, $query);
+              if(!$update_post_count){
+                die('Updating post count failed' . mysqli_error($connection));
+              }
+
+
     $post_status = $row['post_status'];
 
     echo "<tr>

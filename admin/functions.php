@@ -70,32 +70,42 @@ function deletePosts() {
 }
 
 
+function deleteComment() {
+  global $connection;
+  //Delete query
+  if(isset($_GET['delete_comment'])){
+    $the_comment_id = $_GET['delete_comment'];     //Assigns ID for the row, which will be deleted
+    $query = "DELETE FROM comments
+              WHERE comment_id = {$the_comment_id} ";
+    $delete_query = mysqli_query($connection, $query);
+    header("Location: comments.php");
+  }
+}
 
 
+function unapproveComment() {
+  global $connection;
+  //unapproved status query
+  if(isset($_GET['unapprove_comment'])){
+    $the_comment_id = $_GET['unapprove_comment'];     //Assigns ID for the row, which value will be altered
+    $query = "UPDATE comments
+              SET comment_status='unapproved'
+              WHERE comment_id = {$the_comment_id} ";
+    $unapprove_query = mysqli_query($connection, $query);
+    header("Location: comments.php");
+  }
+}
+
+function approveComment() {
+  global $connection;
+  //approved status query
+  if(isset($_GET['approve_comment'])){
+    $the_comment_id = $_GET['approve_comment'];     //Assigns ID for the row, which value will be altered
+    $query = "UPDATE comments
+              SET comment_status='approved'
+              WHERE comment_id = {$the_comment_id} ";
+    $unapprove_query = mysqli_query($connection, $query);
+    header("Location: comments.php");
+  }
+}
 ?>
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
- ?>

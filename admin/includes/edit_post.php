@@ -53,6 +53,23 @@ if(isset($_GET['p_id'])){                                    //gets current valu
     }
 
   }
+
+  //function to check selected <select> option in Select Post Category
+  function ifPostCategorySelected($option){
+    global $post_category_id;
+    if($post_category_id == $option ){
+      echo "selected";
+    }
+  }
+
+  //function to check selected <select> option in Post Status
+  function whichPostStatusSelected($option){
+    global $post_status;
+    if($post_status == $option ){
+      echo "selected";
+    }
+
+  }
 }
  ?>
 
@@ -72,7 +89,9 @@ confirm($select_categories);
 while($row = mysqli_fetch_array($select_categories)){
   $cat_id = $row['cat_id'];
   $cat_title = $row['cat_title'];
-  echo "<option value='{$cat_id}''>{$cat_title}</option>";
+  echo "<option value='{$cat_id}' ";
+  ifPostCategorySelected($cat_id);                 //echos 'selected' if cat_id matches
+  echo ">{$cat_title}</option>";
 }
 
  ?>
@@ -85,7 +104,14 @@ while($row = mysqli_fetch_array($select_categories)){
     </div>
   <div class="form-group">
     <label for="post_status">Post Status</label>
-    <input value="<?php echo $post_status ?>" type="text" class="form-control" name="post_status">
+    <select class="form-control" name="post_status" id="post_category">
+      <option <?php whichPostStatusSelected('Published') ?> value="Published">Published</option>
+      <option <?php whichPostStatusSelected('UnPublished') ?> value="UnPublished">UnPublished</option>
+    </select>
+
+
+    <!-- <label for="post_status">Post Status</label>
+    <input value="<?php echo $post_status ?>" type="text" class="form-control" name="post_status"> -->
   </div>
   <div class="form-group">
     <label for="post_image">Post Image</label>

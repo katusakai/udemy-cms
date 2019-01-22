@@ -3,58 +3,49 @@
     <thead>
       <tr>
         <th>ID</th>
-        <th>Author</th>
-        <th>Comment</th>
+        <th>Username</th>
+        <th>First Name</th>
+        <th>Last Name</th>
         <th>Email</th>
-        <th>Status</th>
-        <th>In Response to</th>
-        <th>Date</th>
-        <th>Aprrove</th>
-        <th>Unaprrove</th>
-        <th>Delete</th>
+        <th>Role</th>
       </tr>
     </thead>
     <tbody>
 
 
   <?php
-  $query = "SELECT * FROM comments";
-  $select_comments = mysqli_query($connection, $query);
-  if(!$select_comments){
+  $query = "SELECT * FROM users";
+  $select_users = mysqli_query($connection, $query);
+  if(!$select_users){
   echo die("QUERY FAILED" . mysqli_error());
   } else {
-  while($row = mysqli_fetch_array($select_comments)){
-    $comment_id = $row['comment_id'];
-    $comment_post_id = $row['comment_post_id'];
-    $comment_author = $row['comment_author'];
-    $comment_email = $row['comment_email'];
-    $comment_content = $row['comment_content'];
-    $comment_status = $row['comment_status'];
-    $comment_date = $row['comment_date'];
+  while($row = mysqli_fetch_array($select_users)){
+    $user_id = $row['user_id'];
+    $user_name = $row['user_name'];
+    $user_firstname = $row['user_firstname'];
+    $user_lastname = $row['user_lastname'];
+    $user_email = $row['user_email'];
+    $user_role = $row['user_role'];
 
     echo "<tr>
-      <td>{$comment_id}</td>
-      <td>{$comment_author}</td>
-      <td>{$comment_content}</td>
-      <td><a href='mailo:{$comment_email}'>{$comment_email}</a></td>
-      <td>{$comment_status}</td>";
+      <td>{$user_id}</td>
+      <td>{$user_name}</td>
+      <td>{$user_firstname}</td>
+      <td>{$user_lastname}</td>
+      <td><a href='mailo:{$user_email}'>{$user_email}</a></td>
+      <td>{$user_role}</td>";
 
       //Write Posts name from 'Posts' table according to comment_post_id from 'comments' table
-      $query = "SELECT * FROM posts WHERE post_id = {$comment_post_id}";
-      $select_post_id_query = mysqli_query($connection, $query);
-      confirm($select_post_id_query);
-      while($row = mysqli_fetch_assoc($select_post_id_query)){
-        $post_title = $row['post_title'];
-        $post_id = $row['post_id'];
-        echo "<td><a href='../post.php?p_id={$post_id}'>{$post_title}</a></td>";
-      }
+      // $query = "SELECT * FROM posts WHERE post_id = {$comment_post_id}";
+      // $select_post_id_query = mysqli_query($connection, $query);
+      // confirm($select_post_id_query);
+      // while($row = mysqli_fetch_assoc($select_post_id_query)){
+      //   $post_title = $row['post_title'];
+      //   $post_id = $row['post_id'];
+      //   echo "<td><a href='../post.php?p_id={$post_id}'>{$post_title}</a></td>";
+      // }
 
-    echo "
-      <td>{$comment_date}</td>
-      <td><a href='comments.php?approve_comment={$comment_id}'>Approve</a></td>
-      <td><a href='comments.php?unapprove_comment={$comment_id}'>Unapprove</a></td>
-      <td><a href='comments.php?delete_comment={$comment_id}'>Delete</a></td>
-      </tr>";
+    echo "</tr>";
     }
   }
   ?>

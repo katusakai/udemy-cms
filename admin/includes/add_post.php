@@ -11,7 +11,7 @@ if(isset($_POST['create_post'])){
   $post_tags = $_POST['post_tags'];
   $post_content = $_POST['post_content'];
   $post_date = date('d-m-y');
-  
+
   move_uploaded_file($post_image_temp, "../images/$post_image");
 
   $query = "INSERT INTO posts (post_category_id, post_title, post_author,
@@ -74,7 +74,11 @@ if(isset($_POST['create_post'])){
     </div>
   <div class="form-group">
     <label for="post_status">Post Status</label>
-    <input type="text" class="form-control" name="post_status">
+    <select class="form-control" name="post_status" id="">
+      <option value="Published">Published</option>
+      <option value="UnPublished">Unpublished</option>
+    </select>
+    <!-- <input type="text" class="form-control" name="post_status"> -->
   </div>
   <div class="form-group">
     <label for="post_image">Post Image</label>

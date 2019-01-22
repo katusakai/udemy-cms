@@ -13,7 +13,9 @@
               <?php
                 if(isset($_GET['category'])) {
                   $the_post_category_id = $_GET['category'];
-                  $query = "SELECT * FROM posts WHERE post_category_id = {$the_post_category_id}";
+                  $query = "SELECT * FROM posts
+                            WHERE post_category_id = {$the_post_category_id}
+                            AND post_status = 'Published'";
                   $select_all_posts_query = mysqli_query($connection, $query);
                   while($row = mysqli_fetch_array($select_all_posts_query)){
                     $post_id = $row['post_id'];

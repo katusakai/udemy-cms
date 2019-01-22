@@ -19,7 +19,7 @@
               if($count_published_posts > 0){
                 $query = "SELECT * FROM posts
                           WHERE post_status = 'published'
-                          ORDER BY post_date DESC";
+                          ORDER BY post_date, post_id DESC";
                 $select_all_posts_query = mysqli_query($connection, $query);
                 while($row = mysqli_fetch_array($select_all_posts_query)){
                   $post_id = $row['post_id'];

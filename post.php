@@ -69,7 +69,7 @@
               VALUES ({$the_post_id}, '{$comment_author}', '{$comment_email}',
               '{$comment_content}', '{$comment_status}', now() )";
             $insert_comment = mysqli_query($connection, $query);
-            header("Location: #comments");
+            header('Location: #comments');
             if(!$insert_comment){
               die("Inserting comment failed" . mysqli_error($connection));
             }

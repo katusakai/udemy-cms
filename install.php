@@ -6,6 +6,11 @@
   $showTables = mysqli_query($connection, $query);
   if(!$showTables) {
     die();
+  } else {
+    // while($row = mysqli_fetch_array($showTables)){
+    //   echo $row['Tables_in_cms'];
+    //   echo "<br>";
+    // }
   }
   function IsInTable($table_value){
     global $showTables;
@@ -54,6 +59,7 @@
       header("Location: install.php");
     }
   }
+
   if(isset($_POST['create_comments'])){
     $query = "CREATE TABLE comments (
               comment_id int(3) NOT NULL AUTO_INCREMENT,
@@ -64,6 +70,26 @@
               comment_status varchar(255) NOT NULL,
               comment_date date NOT NULL,
               PRIMARY KEY (comment_id));";
+    $create_table = mysqli_query($connection, $query);
+    if(!$create_table){
+      die("creating table failed" . mysqli_error($connection));
+    } else {
+      header("Location: install.php");
+    }
+  }
+
+  if(isset($_POST['create_users'])){
+    $query = "CREATE TABLE users (
+              user_id INT(3) NOT NULL AUTO_INCREMENT,
+              user_name VARCHAR(255) NOT NULL,
+              user_password VARCHAR(255) NOT NULL,
+              user_firstname VARCHAR(255) NOT NULL,
+              user_lastname VARCHAR(255) NOT NULL,
+              user_email  VARCHAR(255) NOT NULL,
+              user_image TEXT NOT NULL,
+              user_role VARCHAR(255) NOT NULL,
+              user_randSalt VARCHAR(255) NOT NULL,
+              PRIMARY KEY (user_id));";
     $create_table = mysqli_query($connection, $query);
     if(!$create_table){
       die("creating table failed" . mysqli_error($connection));
@@ -101,6 +127,16 @@
   <form action="" method="post">
     <label class="form-control" for="create_comments">Create COMMENTS table</label>
     <input class="form-control" type="submit" name="create_comments" value="Create">
+  </form>
+</div>
+<hr>
+<?php } ?>
+
+<?php if(!IsInTable('users')){ ?>
+<div class="form-group">
+  <form action="" method="post">
+    <label class="form-control" for="create_users">Create USERS table</label>
+    <input class="form-control" type="submit" name="create_users" value="Create">
   </form>
 </div>
 <hr>

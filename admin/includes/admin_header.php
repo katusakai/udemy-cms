@@ -1,6 +1,17 @@
 <?php ob_start(); ?>      <!-- ob_start — Turn on output buffering -->
-<?php include_once '../includes/db.php' ?>
-<?php include 'functions.php' ?>
+<?php include_once '../includes/db.php'; ?>
+<?php include 'functions.php'; ?>
+<?php session_start(); ?>
+
+<?php
+if(!isset($_SESSION['user_role'])){
+  header("Location: ../index.php#login");
+} else {
+}
+?>
+
+
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 <!DOCTYPE html>
 <html lang="en">
 

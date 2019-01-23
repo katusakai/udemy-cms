@@ -108,4 +108,18 @@ function approveComment() {
     header("Location: comments.php");
   }
 }
+
+
+
+function deleteUser() {
+  global $connection;
+  //Delete query
+  if(isset($_GET['delete_user'])){
+    $the_user_id = $_GET['delete_user'];     //Assigns ID for the row, which will be deleted
+    $query = "DELETE FROM users
+              WHERE user_id = {$the_user_id} ";
+    $delete_query = mysqli_query($connection, $query);
+    header("Location: users.php");
+  }
+}
 ?>

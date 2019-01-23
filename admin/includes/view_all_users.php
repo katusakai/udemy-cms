@@ -7,7 +7,10 @@
         <th>First Name</th>
         <th>Last Name</th>
         <th>Email</th>
+        <th>Image</th>
         <th>Role</th>
+        <th>Edit</th>
+        <th>Delete</th>
       </tr>
     </thead>
     <tbody>
@@ -25,6 +28,7 @@
     $user_firstname = $row['user_firstname'];
     $user_lastname = $row['user_lastname'];
     $user_email = $row['user_email'];
+    $user_image = $row['user_image'];
     $user_role = $row['user_role'];
 
     echo "<tr>
@@ -33,7 +37,11 @@
       <td>{$user_firstname}</td>
       <td>{$user_lastname}</td>
       <td><a href='mailo:{$user_email}'>{$user_email}</a></td>
-      <td>{$user_role}</td>";
+      <td width='100'><img width='100' class='img-responsive' src='../images/users_images/{$user_image}' alt='no image'></td>
+      <td>{$user_role}</td>
+      <td><a href='users.php?source=edit_user&u_id={$user_id}'>Edit<a/></td>
+      <td><a href='users.php?delete_user={$user_id}'>Delete</a></td>";
+
 
       //Write Posts name from 'Posts' table according to comment_post_id from 'comments' table
       // $query = "SELECT * FROM posts WHERE post_id = {$comment_post_id}";
@@ -55,18 +63,8 @@
 
 
 <?php
-if(isset($_GET['delete_comment'])){
-deleteComment();
+if(isset($_GET['delete_user'])){
+deleteUser();
 }
-
-if(isset($_GET['approve_comment'])){
-approveComment();
-}
-
-if(isset($_GET['unapprove_comment'])){
-unapproveComment();
-}
-
-
 
  ?>

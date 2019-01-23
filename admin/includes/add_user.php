@@ -1,30 +1,27 @@
 <?php
 if(isset($_POST['create_user'])){
-  $post_title = $_POST['title'];
-  $post_category_id = $_POST['post_category'];
-  $post_author = $_POST['author'];
-  $post_status = $_POST['post_status'];
+  $user_name = $_POST['user_name'];
+  $user_password = $_POST['user_password'];
+  $user_firstname = $_POST['user_firstname'];
+  $user_lastname = $_POST['user_lastname'];
+  $user_email = $_POST['user_email'];
+  $user_role = $_POST['user_role'];
 
-  $post_image = $_FILES['image']['name'];
-  $post_image_temp = $_FILES['image']['tmp_name'];
+  $user_image = $_FILES['user_image']['name'];
+  $user_image_temp = $_FILES['user_image']['tmp_name'];
+  move_uploaded_file($user_image_temp, "../images/users_images/$user_image");
 
-  $post_tags = $_POST['post_tags'];
-  $post_content = $_POST['post_content'];
-  $post_date = date('d-m-y');
+  $query = "INSERT INTO users (user_name, user_password, user_firstname,
+  user_lastname, user_email, user_role, user_image)
+  VALUES ('{$user_name}', '{$user_password}', '{$user_firstname}',
+  '{$user_lastname}', '{$user_email}', '{$user_role}', '{$user_image}')";
 
-  move_uploaded_file($post_image_temp, "../images/$post_image");
-
-  $query = "INSERT INTO posts (post_category_id, post_title, post_author,
-  post_date, post_image, post_content, post_tags, post_status)
-  VALUES ({$post_category_id}, '{$post_title}', '{$post_author}',
-  now(), '{$post_image}', '{$post_content}', '{$post_tags}', '{$post_status}')";
-
-  $create_post_query = mysqli_query($connection, $query);
-  if($create_post_query){
-    echo "<h2>Post was created successfully</h2>";
+  $create_user_query = mysqli_query($connection, $query);
+  if($create_user_query){
+    echo "<h2>User was created successfully</h2>";
   }
 
-  confirm($create_post_query);
+  confirm($create_user_query);
 }
 
 
@@ -50,27 +47,18 @@ if(isset($_POST['create_user'])){
     <input type="text" class="form-control" name="user_lastname">
   </div>
   <div class="form-group">
-    <label for="post_category">Select Post Category</label>
+    <label for="post_category">Select User Role</label>
     <select class="form-control" name="user_role" id="post_category">
-
-  <?php
-  $query = "SELECT * FROM users";
-  $select_roles = mysqli_query($connection, $query);
-  confirm($select_roles);
-  while($row = mysqli_fetch_array($select_roles)){
-    $user_id = $row['user_id'];
-    $user_role = $row['cat_role'];
-    echo "<option value='{$user_id}'>{$user_role}</option>";
-  }
-
-  ?>
+      <option value="Subscriber">Select Options</option>
+      <option value="Subscriber">Subscriber</option>
+      <option value="Admin">Admin</option>
     </select>
     </div>
 
-  <!-- <div class="form-group">
-    <label for="post_image">Post Image</label>
-    <input class="form-control-file" type="file" name="image">
-    </div> -->
+  <div class="form-group">
+    <label for="user_image">Post Image</label>
+    <input class="form-control-file" type="file" name="user_image">
+    </div>
 
   <div class="form-group">
     <label for="post_tags">Username</label>

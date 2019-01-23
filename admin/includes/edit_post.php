@@ -34,17 +34,16 @@ if(isset($_GET['p_id'])){                                    //gets current valu
         move_uploaded_file($post_image_temp, "../images/$post_image");
       }
 
-      $update_post_query =
-      "UPDATE posts SET
-      post_title = '{$post_title}',
-      post_category_id = '{$post_category_id}',
-      post_date = now(),
-      post_author = '{$post_author}',
-      post_status = '{$post_status}',
-      post_tags = '{$post_tags}',
-      post_content = '{$post_content}',
-      post_image = '{$post_image}'
-      WHERE post_id = {$the_post_id} ";
+      $update_post_query ="UPDATE posts SET
+                          post_title = '{$post_title}',
+                          post_category_id = '{$post_category_id}',
+                          post_date = now(),
+                          post_author = '{$post_author}',
+                          post_status = '{$post_status}',
+                          post_tags = '{$post_tags}',
+                          post_content = '{$post_content}',
+                          post_image = '{$post_image}'
+                          WHERE post_id = {$the_post_id} ";
       $update_post = mysqli_query($connection,$update_post_query);
       confirm($update_post);
       if($update_post){
@@ -109,9 +108,6 @@ while($row = mysqli_fetch_array($select_categories)){
       <option <?php whichPostStatusSelected('UnPublished') ?> value="UnPublished">UnPublished</option>
     </select>
 
-
-    <!-- <label for="post_status">Post Status</label>
-    <input value="<?php echo $post_status ?>" type="text" class="form-control" name="post_status"> -->
   </div>
   <div class="form-group">
     <label for="post_image">Post Image</label>

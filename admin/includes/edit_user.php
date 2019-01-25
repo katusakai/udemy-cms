@@ -26,7 +26,7 @@ if(isset($_GET['u_id'])){                                    //gets current valu
       $user_email = $_POST['user_email'];
       $user_password = $user_password;
 
-      if(isset($_POST['user_password']) || isset($_POST['confirm_user_password'])){   //checks if user updates password
+      if(isset($_POST['user_password']) && $_POST['user_password'] != "" || isset($_POST['confirm_user_password']) && $_POST['confirm_user_password'] != "") {   //checks if user updates password
         if($_POST['user_password'] == $_POST['confirm_user_password']){
           $user_password = $_POST['user_password'];
         } else {

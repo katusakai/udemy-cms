@@ -38,7 +38,7 @@ function findAllCategories(){
             <td>{$cat_id}</td>
             <td>{$cat_title}</td>
             <td><a href='categories.php?edit={$cat_id}'>EDIT</a></td>
-            <td><a href='categories.php?delete={$cat_id}'>DELETE</a></td>
+            <td><a onClick=\"javascript: return confirm('Are you sure you want to delete?'); \" href='categories.php?delete={$cat_id}'>DELETE</a></td>
           </tr>  ";
     }
 }

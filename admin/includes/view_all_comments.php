@@ -53,7 +53,7 @@
       <td>{$comment_date}</td>
       <td><a href='comments.php?approve_comment={$comment_id}'>Approve</a></td>
       <td><a href='comments.php?unapprove_comment={$comment_id}'>Unapprove</a></td>
-      <td><a href='comments.php?delete_comment={$comment_id}'>Delete</a></td>
+      <td><a onClick=\"javascript: return confirm('Are you sure you want to delete?'); \" href='comments.php?delete_comment={$comment_id}'>Delete</a></td>
       </tr>";
     }
   }

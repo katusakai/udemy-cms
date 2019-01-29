@@ -47,7 +47,7 @@ if(isset($_GET['p_id'])){                                    //gets current valu
       $update_post = mysqli_query($connection,$update_post_query);
       confirm($update_post);
       if($update_post){
-        echo "<h2>Post was updated successfully</h2>";
+        echo "<p class='bg-success'>Post was updated successfully. <a href='../post.php?p_id={$post_id}'>View post</a> or <a href='posts.php'> Edit More Posts</a></p><br>";
       }
     }
 
@@ -121,10 +121,20 @@ while($row = mysqli_fetch_array($select_categories)){
   </div>
   <div class="form-group">
     <label for="post_content">Post Content</label>
-    <textarea class="form-control" name="post_content" id="" cols="30" rows="10"><?php echo $post_content ?>
+    <textarea class="form-control" name="post_content" id="body" cols="30" rows="10"><?php echo $post_content ?>
     </textarea>
   </div>
   <div class="form-group">
     <input type="submit" class="btn btn-primary" name="update_post" value="update">
   </div>
 </form>
+
+
+
+<script>
+    ClassicEditor
+        .create( document.querySelector( '#body' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+</script>

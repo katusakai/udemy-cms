@@ -88,7 +88,7 @@
               user_email  VARCHAR(255) NOT NULL,
               user_image TEXT NOT NULL,
               user_role VARCHAR(255) NOT NULL,
-              user_randSalt VARCHAR(255) NOT NULL,
+              user_randSalt VARCHAR(255) DEFAULT '$2y$10$iusesomecrazystrings22',
               PRIMARY KEY (user_id));";
     $create_table = mysqli_query($connection, $query);
     if(!$create_table){

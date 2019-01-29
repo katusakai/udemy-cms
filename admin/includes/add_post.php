@@ -21,7 +21,8 @@ if(isset($_POST['create_post'])){
 
   $create_post_query = mysqli_query($connection, $query);
   if($create_post_query){
-    echo "<h2>Post was created successfully</h2>";
+    $the_post_id = mysqli_insert_id($connection);
+    echo "<p class='bg-success'>Post was created successfully. <a href='../post.php?p_id={$the_post_id}'>View this post</a> or <a href='posts.php'> Edit Posts</a></p><br>";
   }
 
   confirm($create_post_query);
@@ -75,6 +76,7 @@ if(isset($_POST['create_post'])){
   <div class="form-group">
     <label for="post_status">Post Status</label>
     <select class="form-control" name="post_status" id="">
+      <option value="UnPublished">Select Option</option>
       <option value="Published">Published</option>
       <option value="UnPublished">Unpublished</option>
     </select>
@@ -90,10 +92,20 @@ if(isset($_POST['create_post'])){
   </div>
   <div class="form-group">
     <label for="post_content">Post Content</label>
-    <textarea class="form-control" name="post_content" id="" cols="30" rows="10">
+    <textarea class="form-control" name="post_content" id="body" cols="30" rows="10">
     </textarea>
   </div>
   <div class="form-group">
     <input type="submit" class="btn btn-primary" name="create_post" value="Publish">
   </div>
 </form>
+
+
+
+<script>
+    ClassicEditor
+        .create( document.querySelector( '#body' ) )
+        .catch( error => {
+            console.error( error );
+        } );
+</script>

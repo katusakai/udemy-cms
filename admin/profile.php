@@ -57,6 +57,15 @@ if(isset($_POST['update_profile'])){                       //updates values once
     }
   }
 
+  //Password encryption
+      $query = "SELECT user_randSalt FROM users";
+      $select_randsalt_query = mysqli_query($connection, $query);
+      if(!$select_randsalt_query){
+        die("Query Failed" . mysqli_error($connection));
+      }
+      $row = mysqli_fetch_array($select_randsalt_query);
+      $salt = $row['user_randSalt'];
+      $hashed_password = crypt($user_password, $salt);
 
   if($_FILES['user_image']['name'] != NULL || $_FILES['user_image']['name'] != ""){      //done differently than Teacher did
     $user_image = $_FILES['user_image']['name'];
@@ -71,7 +80,7 @@ if(isset($_POST['update_profile'])){                       //updates values once
                       user_lastname = '{$user_lastname}',
                       user_name = '{$user_name}',
                       user_email = '{$user_email}',
-                      user_password = '{$user_password}',
+                      user_password = '{$hashed_password}',
                       user_image = '{$user_image}'
                       WHERE user_name = '{$username}' ";
   $update_user = mysqli_query($connection, $update_user_query);

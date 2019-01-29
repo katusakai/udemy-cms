@@ -37,6 +37,16 @@ if(isset($_GET['u_id'])){                                    //gets current valu
         }
       }
 
+      //Password encryption
+          $query = "SELECT user_randSalt FROM users";
+          $select_randsalt_query = mysqli_query($connection, $query);
+          if(!$select_randsalt_query){
+            die("Query Failed" . mysqli_error($connection));
+          }
+          $row = mysqli_fetch_array($select_randsalt_query);
+          $salt = $row['user_randSalt'];
+          $hashed_password = crypt($user_password, $salt);
+
 
       if($_FILES['user_image']['name'] != NULL || $_FILES['user_image']['name'] != ""){      //done differently than Teacher did
         $user_image = $_FILES['user_image']['name'];
@@ -46,13 +56,16 @@ if(isset($_GET['u_id'])){                                    //gets current valu
         $user_image = $user_image;
       }
 
+
+
+
       $update_user_query ="UPDATE users SET
                           user_firstname = '{$user_firstname}',
                           user_lastname = '{$user_lastname}',
                           user_role = '{$user_role}',
                           user_name = '{$user_name}',
                           user_email = '{$user_email}',
-                          user_password = '{$user_password}',
+                          user_password = '{$hashed_password}',
                           user_image = '{$user_image}'
                           WHERE user_id = {$the_user_id} ";
       $update_user = mysqli_query($connection, $update_user_query);

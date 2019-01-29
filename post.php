@@ -61,16 +61,21 @@
             $comment_content = $_POST['comment_content'];
             $comment_status = "approved";     //default
             $comment_date = date('d-m-y');
+            $bad_comment_message = "";
 //Adds new comment
-            $query = "INSERT INTO comments
-              (comment_post_id, comment_author, comment_email,
-              comment_content, comment_status, comment_date)
-              VALUES ({$the_post_id}, '{$comment_author}', '{$comment_email}',
-              '{$comment_content}', '{$comment_status}', now() )";
-            $insert_comment = mysqli_query($connection, $query);
-            header('Location: #comments');
-            if(!$insert_comment){
-              die("Inserting comment failed" . mysqli_error($connection));
+            if(!empty($comment_author) && !empty($comment_email) && !empty($comment_content)){
+              $query = "INSERT INTO comments
+                (comment_post_id, comment_author, comment_email,
+                comment_content, comment_status, comment_date)
+                VALUES ({$the_post_id}, '{$comment_author}', '{$comment_email}',
+                '{$comment_content}', '{$comment_status}', now() )";
+              $insert_comment = mysqli_query($connection, $query);
+              header('Location: #comments');
+              if(!$insert_comment){
+                die("Inserting comment failed" . mysqli_error($connection));
+              }
+            } else {
+              echo "<script>alert('Fields cannot be empty')</script>";
             }
           }
 

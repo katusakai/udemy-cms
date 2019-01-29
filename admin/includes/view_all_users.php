@@ -40,7 +40,7 @@
       <td width='100'><img width='100' class='img-responsive' src='../images/users_images/{$user_image}' alt='no image'></td>
       <td>{$user_role}</td>
       <td><a href='users.php?source=edit_user&u_id={$user_id}'>Edit<a/></td>
-      <td><a href='users.php?delete_user={$user_id}'>Delete</a></td>";
+      <td><a onClick=\"javascript: return confirm('Are you sure you want to delete?'); \" href='users.php?delete_user={$user_id}'>Delete</a></td>";
 
 
       //Write Posts name from 'Posts' table according to comment_post_id from 'comments' table

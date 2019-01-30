@@ -13,6 +13,15 @@
               <?php
               if(isset($_GET['p_id'])) {
                 $the_post_id = $_GET['p_id'];
+                //counts how many times selected post was seen
+                $view_query = "UPDATE posts
+                              SET post_views_count = post_views_count + 1
+                              WHERE post_id = {$the_post_id}";
+                $send_query = mysqli_query($connection, $view_query);
+                if(!$send_query){
+                  die("Updating post view count failed. " . mysqli_error($connection));
+                }
+                //reading selected post
                 $query = "SELECT * FROM posts WHERE post_id = {$the_post_id}";
                 $select_all_posts_query = mysqli_query($connection, $query);
                 while($row = mysqli_fetch_array($select_all_posts_query)){

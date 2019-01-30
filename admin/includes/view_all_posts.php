@@ -11,6 +11,7 @@ if(isset($_POST['checkBoxArray'])){
         $publish_posts = mysqli_query($connection, $query);
       }
       break;
+
     case 'UnPublished':
       foreach ($_POST['checkBoxArray'] as $checkBoxValue) {
         $query = "UPDATE posts
@@ -19,15 +20,44 @@ if(isset($_POST['checkBoxArray'])){
         $unPublish_posts = mysqli_query($connection, $query);
       }
       break;
+
     case 'Delete':
       foreach ($_POST['checkBoxArray'] as $checkBoxValue) {
         $query = "DELETE FROM posts
-                                    WHERE post_id = {$checkBoxValue} ";
+                  WHERE post_id = {$checkBoxValue} ";
         $delete_posts = mysqli_query($connection, $query);
       }
       break;
-  }
 
+    case 'Clone':
+      foreach ($_POST['checkBoxArray'] as $checkBoxValue) {
+        $query = "SELECT * FROM posts
+                  WHERE post_id = {$checkBoxValue} ";
+        $select_posts_to_clone = mysqli_query($connection, $query);
+
+        while($row = mysqli_fetch_array($select_posts_to_clone)){
+          $new_post_category_id = $row['post_category_id'];
+          $new_post_title = $row['post_title'];
+          $new_post_author = $row['post_author'];
+          $new_post_image = $row['post_image'];
+          $new_post_content = $row['post_content'];
+          $new_post_tags = $row['post_tags'];
+
+          $query = "INSERT INTO posts (post_category_id, post_title, post_author,
+          post_date, post_image, post_content, post_tags)
+          VALUES ({$new_post_category_id}, '{$new_post_title}', '{$new_post_author}',
+          now(), '{$new_post_image}', '{$new_post_content}', '{$new_post_tags}')";
+
+          $clone_post_query = mysqli_query($connection, $query);
+          if($clone_post_query){
+            $the_post_id = mysqli_insert_id($connection);
+            echo "<p class='bg-success'>Post was created successfully. <a href='../post.php?p_id={$the_post_id}'>View this post</a> or <a href='posts.php'> Edit Posts</a></p><br>";
+          }
+          confirm($clone_post_query);
+        }
+      }
+      break;
+  }
 }
 
  ?>
@@ -44,6 +74,7 @@ if(isset($_POST['checkBoxArray'])){
             <option value="Published">Publish</option>
             <option value="UnPublished">UnPublish</option>
             <option value="Delete">Delete</option>
+            <option value="Clone">Clone</option>
           </select>
         </div>
         <div class="col-xs-4">
@@ -74,7 +105,7 @@ if(isset($_POST['checkBoxArray'])){
 
 
     <?php
-    $query = "SELECT * FROM posts";
+    $query = "SELECT * FROM posts ORDER BY post_id DESC";
     $select_posts = mysqli_query($connection, $query);
     if(!$select_posts){
     echo die("QUERY FAILED" . mysqli_error());

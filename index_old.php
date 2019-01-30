@@ -11,27 +11,6 @@
             <div class="col-md-8">
 
               <?php
-//pagination PHP start
-              $post_query_count = "SELECT * FROM posts";
-              $find_post_count = mysqli_query($connection, $post_query_count );
-              $count = mysqli_num_rows($find_post_count);
-              $per_page = 5;
-              $count = ceil($count / $per_page);
-
-              if(isset($_GET['page'])){
-                $page = mysqli_real_escape_string($connection, $_GET['page']);
-              } else {
-                $page = "";
-              }
-
-              if($page =="" || $page ==1){
-                $page_1 = 0;
-              } else {
-                $page_1 = ($page * $per_page) - $per_page;
-              }
-
-//Pagination PHP end
-
 // counts published posts
               $query = "SELECT * FROM posts
                         WHERE post_status = 'published'";
@@ -40,12 +19,8 @@
               if($count_published_posts > 0){
                 $query = "SELECT * FROM posts
                           WHERE post_status = 'published'
-                          ORDER BY post_date DESC, post_id DESC
-                          LIMIT {$page_1}, 5";
+                          ORDER BY post_date DESC, post_id DESC";
                 $select_all_posts_query = mysqli_query($connection, $query);
-                if(!$select_all_posts_query){
-                  die("error". mysqli_error($connection));
-                }
                 while($row = mysqli_fetch_array($select_all_posts_query)){
                   $post_id = $row['post_id'];
                   $post_title = $row['post_title'];
@@ -93,22 +68,5 @@
         <!-- /.row -->
 
         <hr>
-<!-- Pagination start -->
-<ul class="pager">
-
-  <?php
-  if($count>5){
-    for($i = 1 ; $i <= $count ; $i++){
-      echo "<li><a href='?page=$i'>$i</a></li>";
-    }
-  } else {
-    for($i = 1 ; $i <= $count ; $i++){
-      echo "<li><a href='?page={$i}'>{$i}</a></li>";
-    }
-  } ?>
-</ul>
-<!-- Pagination end -->
-
-
 <!-- Footer -->
 <?php include 'includes/footer.php' ?>

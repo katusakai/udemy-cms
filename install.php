@@ -51,6 +51,7 @@
               post_tags varchar(255) NOT NULL,
               post_comment_count int(11) NOT NULL,
               post_status	varchar(255) NOT NULL,
+              post_views_count int(11) NOT NULL,
               PRIMARY KEY (post_id));";
     $create_table = mysqli_query($connection, $query);
     if(!$create_table){

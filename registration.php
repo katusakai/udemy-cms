@@ -7,6 +7,9 @@ if(isset($_POST['submit'])){
   $username = mysqli_real_escape_string($connection, $_POST['username']);
   $email = mysqli_real_escape_string($connection, $_POST['email']);
   $password = mysqli_real_escape_string($connection, $_POST['password']);
+  
+  $password = password_hash($password, PASSWORD_BCRYPT, array('cost'=>12));
+
   if(empty($username)){
     $error_text = "You need to type Username";
   } else if(empty($email)){
@@ -14,18 +17,6 @@ if(isset($_POST['submit'])){
   } else if(empty($password)){
     $error_text = "You need to type Password";
   } else{
-
-    $randsaltquery = "SELECT user_randSalt FROM users";
-    $select_randsalt_query = mysqli_query($connection, $randsaltquery);
-    if(!$select_randsalt_query){
-      die(mysqli_error($connection));
-    }
-    $row = mysqli_fetch_array($select_randsalt_query);
-    $salt = $row['user_randSalt'];
-
-    $password = crypt($password, $salt);
-
-
 
     $query = "INSERT INTO users (user_name, user_password, user_email, user_role)
               Values ('{$username}', '{$password}', '{$email}', 'Subscriber')";
@@ -38,17 +29,11 @@ if(isset($_POST['submit'])){
   }
 }
 
-
  ?>
-
-
-
-
 
     <!-- Navigation -->
 
     <?php  include "includes/navigation.php"; ?>
-
 
     <!-- Page Content -->
     <div class="container">
@@ -71,7 +56,7 @@ if(isset($_POST['submit'])){
                         </div>
                          <div class="form-group">
                             <label for="password" class="sr-only">Password</label>
-                            <input type="password" name="password" id="key" class="form-control" placeholder="Password">
+                            <input autocomplete="off" type="password" name="password" id="key" class="form-control" placeholder="Password">
                         </div>
 
                         <input type="submit" name="submit" id="btn-login" class="btn btn-custom btn-lg btn-block" value="Register">

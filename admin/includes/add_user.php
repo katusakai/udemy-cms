@@ -2,6 +2,7 @@
 if(isset($_POST['create_user'])){
   $user_name = $_POST['user_name'];
   $user_password = $_POST['user_password'];
+  $user_password = password_hash($user_password, PASSWORD_BCRYPT, array('cost'=>10));
   $user_firstname = $_POST['user_firstname'];
   $user_lastname = $_POST['user_lastname'];
   $user_email = $_POST['user_email'];
@@ -24,18 +25,7 @@ if(isset($_POST['create_user'])){
   confirm($create_user_query);
 }
 
-
-// $query = "SELECT * FROM categories WHERE cat_id = {$post_category_id}";
-// $select_categories_id = mysqli_query($connection, $query);
-// confirm($select_categories_id);
-// while($row = mysqli_fetch_assoc($select_categories_id)){
-//   $cat_title = $row['cat_title'];
-// }
-
-
-
  ?>
-
 
 <form action="" method="post" enctype="multipart/form-data">
   <div class="form-group">
@@ -70,7 +60,7 @@ if(isset($_POST['create_user'])){
   </div>
   <div class="form-group">
     <label for="post_tags">Password</label>
-    <input type="password" class="form-control" name="user_password">
+    <input autocomplete="off" type="password" class="form-control" name="user_password">
   </div>
   <div class="form-group">
     <input type="submit" class="btn btn-primary" name="create_user" value="Create user">

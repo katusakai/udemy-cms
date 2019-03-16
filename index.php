@@ -15,7 +15,7 @@
               $post_query_count = "SELECT * FROM posts";
               $find_post_count = mysqli_query($connection, $post_query_count );
               $count = mysqli_num_rows($find_post_count);
-              $per_page = 5;
+              $per_page = 2;
               $count = ceil($count / $per_page);
 
               if(isset($_GET['page'])){
@@ -24,7 +24,7 @@
                 $page = "";
               }
 
-              if($page =="" || $page ==1){
+              if($page =="" || $page <=1){
                 $page_1 = 0;
               } else {
                 $page_1 = ($page * $per_page) - $per_page;
@@ -94,21 +94,34 @@
 
         <hr>
 <!-- Pagination start -->
+
 <ul class="pager">
 
   <?php
-  if($count>5){
-    for($i = 1 ; $i <= $count ; $i++){
-      echo "<li><a href='?page=$i'>$i</a></li>";
-    }
-  } else {
-    for($i = 1 ; $i <= $count ; $i++){
+  $previous = $page-1;
+  $next = $page + 1;
+  echo "<li class='pull-left'><a href='?page={$previous}'>Previous</a></li>";
+  for($i = 1 ; $i <= $count ; $i++){    
+    if($count >= 5 ){
+      if($i !=1 && $i != $count && $i != $page && $i != $page -1 && $i != $page + 1) {
+        
+        if($i == 2 || $i == $count-1){
+          echo "......"; 
+        }                     
+        continue;
+      }
+    } if($i == $page){
+      echo "<li><a class='active_link' href='?page={$i}'>{$i}</a></li>";
+    } else {
       echo "<li><a href='?page={$i}'>{$i}</a></li>";
     }
-  } ?>
+  }
+  echo "<li class='pull-right'><a href='?page={$next}'>Next</a></li>";
+   ?>
 </ul>
 <!-- Pagination end -->
 
 
 <!-- Footer -->
 <?php include 'includes/footer.php' ?>
+

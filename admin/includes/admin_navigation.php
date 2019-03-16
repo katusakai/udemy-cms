@@ -10,13 +10,16 @@
         <a class="navbar-brand" href="index.PHP">CMS Admin</a>
     </div>
 
-
-
-
     <!-- Top Menu Items -->
     <ul class="nav navbar-right top-nav">
       <li>
         <a href="../">HOME SITE</a>
+      </li>
+      <!-- <li>
+        <a>Users Online: <?php echo users_online(); ?></a>
+      </li> -->
+      <li>
+        <a>Users Online: <span class="usersonline"></span> </a>
       </li>
 
         <li class="dropdown">

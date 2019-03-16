@@ -1,12 +1,3 @@
-// alert("hi there");  //to test once it works
-
-// ClassicEditor
-//     .create( document.querySelector( '#body' ) )
-//     .catch( error => {
-//         console.error( error );
-//     } );
-
-
 $(document).ready(function(){
 
 
@@ -30,6 +21,16 @@ $(document).ready(function(){
     $(this).remove();
   }
 )
+
+function loadUsersOnline(){
+  $.get("functions.php?onlineusers=result", function(data){
+    $(".usersonline").text(data);
+  });
+}
+
+setInterval(function(){
+  loadUsersOnline();
+},500);
 
 
 });

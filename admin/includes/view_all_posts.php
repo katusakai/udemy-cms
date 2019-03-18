@@ -160,7 +160,7 @@ if(isset($_POST['checkBoxArray'])){
         <td>{$post_status}</td>
         <td><img width='150' class='img-responsive' src='../images/{$post_image}' alt='Image of {$post_title}'></td>
         <td>{$post_tags}</td>
-        <td>$post_comment_count</td>
+        <td><a href='comments.php?post_id=$post_id'>$post_comment_count</a></td>
         <td>$post_date</td>
         <td><a href='../post.php?p_id={$post_id}'>View Post</a></td>
         <td><a href='posts.php?source=edit_post&p_id={$post_id}'>Edit</a></td>

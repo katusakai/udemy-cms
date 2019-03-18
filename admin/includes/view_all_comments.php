@@ -18,7 +18,13 @@
 
 
   <?php
-  $query = "SELECT * FROM comments";
+  if(isset($_GET['post_id'])){
+    $post_id = $_GET['post_id'];
+    $query = "SELECT * FROM comments WHERE comment_post_id = $post_id";
+  } else {
+    $query = "SELECT * FROM comments";
+  }
+  
   $select_comments = mysqli_query($connection, $query);
   if(!$select_comments){
   echo die("QUERY FAILED" . mysqli_error());

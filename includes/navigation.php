@@ -31,6 +31,9 @@
               <li>
                 <a href="registration.php">Registration</a>
               </li>
+              <li>
+                <a href="contact.php">Contact</a>
+              </li>
 
                 <?php if(isset($_SESSION['user_role'])){
                   if(isset($_GET['p_id'])){
@@ -43,15 +46,6 @@
                 }
                  ?>
 
-                <!-- <li>
-                    <a href="#">About</a>
-                </li>
-                <li>
-                    <a href="#">Services</a>
-                </li>
-                <li>
-                    <a href="#">Contact</a>
-                </li> -->
             </ul>
         </div>
         <!-- /.navbar-collapse -->
